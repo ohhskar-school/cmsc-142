@@ -19,7 +19,6 @@ int main() {
 
   // Creating strings from file;
   std::string cleanedFile = readFile(input);
-  std::cout << cleanedFile << std::endl;
 
   Procedure file;
   file.tokenize(cleanedFile);
