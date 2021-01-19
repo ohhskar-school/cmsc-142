@@ -1,11 +1,12 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <list>
 #include <sstream>
 #include <string>
 
-#include "loop.hpp"
 #include "poly.hpp"
+#include "procedure.hpp"
 
 std::string readFile(std::ifstream &input);
 int main() {
@@ -20,6 +21,9 @@ int main() {
   std::string cleanedFile = readFile(input);
   std::cout << cleanedFile << std::endl;
 
+  Procedure file;
+  file.tokenize(cleanedFile);
+
   // Poly fileCount;
   // tokenizeLoops(loopHolder, fileCount);
 
@@ -30,21 +34,38 @@ int main() {
   return 0;
 }
 
-// Reads the file and appends it to a string. Making it one line for easier
-// tokenizing
+// Converts the entire file into one string
 std::string readFile(std::ifstream &input) {
   std::string fileContent;
+  int lineCount = -1;
+
   if (input.is_open()) {
     // Creating the buffer string
     std::string lines;
 
     // Reading each line
     while (getline(input, lines)) {
-      lines.erase(std::remove(lines.begin(), lines.end(), '\r'), lines.end());
-      fileContent.append(lines);
+      // Get initial line count
+      if (lineCount == -1) {
+        lineCount = std::stoi(lines);
+      }
+
+      // If lines are still present but exceed the number of line, dont include
+      // the extra lines
+      else if (lineCount == 0) {
+        break;
+      }
+
+      // Append lines to one string
+      else {
+        lines.erase(std::remove(lines.begin(), lines.end(), '\r'), lines.end());
+        fileContent.append(lines);
+        --lineCount;
+      }
     }
   }
 
+  // remove all spaces
   fileContent.erase(std::remove(fileContent.begin(), fileContent.end(), ' '),
                     fileContent.end());
   return fileContent;

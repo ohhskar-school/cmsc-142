@@ -1,16 +1,4 @@
-for (int
-
-
-  iter = 1; iter <= 10; iter++){
-  a = b + c;
-
-
-
-
-
-  x = y + z;
-
-  for (int x = 0; i < 10; i++){
-    a+b+c;
-  }
-}
+3
+int x = 10, y = 8, z = -2;
+for(intx=0;x<1;x++)
+  x = 1;
