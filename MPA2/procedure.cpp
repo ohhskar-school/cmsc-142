@@ -6,9 +6,13 @@ void Procedure::tokenize(std::string file) {
 
   size_t pos = file.find("for", 0);
 
+  // Find whole content of for
   while (pos != std::string::npos) {
-    // finding end of for
     std::vector<size_t> bracketPositions;
     size_t initPos = file.find("{", pos + 1);
+
+    bracketPositions.push_back(initPos);
+    for (size_t i = initPos + i; i < file.length(); ++i) {
+    }
   }
 }
