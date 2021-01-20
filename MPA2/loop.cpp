@@ -88,21 +88,7 @@ void Loop::printMembers() {
 void Loop::count() {
   bool isInfinite = false;
   // Counts the procedures + condition + operator
-  if (_innerLoop != nullptr) {
-    std::list<Term> termHolder = _innerLoop->getCount().getTerms();
-    for (auto &j : termHolder) {
-      _polyCount.append(j);
-    }
-
-    Term loopContent(
-        _countProcedures() + _condition.getCount() + _operator.getCount(), 0);
-
-    _polyCount.append(loopContent);
-
-    _polyCount.applySummation(false, false, false, _counter.getCounterNumber(),
-                              0, _condition.getConditionVar());
-
-  } else if (_counter.getIsNumber()) {
+  if (_counter.getIsNumber()) {
     if ((!_condition.getIsNumber() &&
          _operator.getOperatorType() == Operator::Operators::subtract) ||
 
@@ -152,7 +138,6 @@ void Loop::count() {
         _polyCount.divide(_operator.getOperatorNumber());
       }
     }
-  } else {
   }
 
   // Counts the creation of the iterator and the last condition check
