@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+class Loop;
+
 struct Parts {
   bool isFor;
   std::string content;
@@ -17,7 +19,10 @@ class Procedure {
 public:
   Procedure();
   void tokenize(std::string);
-  Poly getCount();
+  void count();
+  void printMembers();
+  void printCount();
+  Poly getCount() const;
 
 private:
   std::vector<Parts> _ifParts;
@@ -29,8 +34,10 @@ private:
   Parts _findParts(size_t, size_t, size_t);
   void _cleanParts();
 
+  Loop *_holder;
   Poly _polyCount;
-  int _countProcedures();
+  void _countLoops();
+  void _countProcedures();
 };
 
 #endif

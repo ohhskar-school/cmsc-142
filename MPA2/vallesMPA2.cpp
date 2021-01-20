@@ -5,8 +5,10 @@
 #include <sstream>
 #include <string>
 
-#include "poly.hpp"
 #include "procedure.hpp"
+
+#include "loop.hpp"
+#include "poly.hpp"
 
 std::string readFile(std::ifstream &input);
 int main() {
@@ -22,6 +24,8 @@ int main() {
 
   Procedure file;
   file.tokenize(cleanedFile);
+  file.count();
+  file.printCount();
 
   // Poly fileCount;
   // tokenizeLoops(loopHolder, fileCount);

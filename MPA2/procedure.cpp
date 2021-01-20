@@ -1,4 +1,5 @@
 #include "procedure.hpp"
+#include "loop.hpp"
 
 #define IF_LENGTH 2
 #define FOR_LENGTH 3
@@ -39,8 +40,6 @@ void Procedure::tokenize(std::string file) {
   _workingString.erase(
       std::remove(_workingString.begin(), _workingString.end(), '/'),
       _workingString.end());
-
-  _countProcedures();
 }
 
 Parts Procedure::_findParts(size_t pos, size_t type, size_t lengthOfChar) {
@@ -169,11 +168,10 @@ void Procedure::_cleanParts() {
   _allParts.insert(_allParts.end(), _ifParts.begin(), _ifParts.end());
 }
 
-int Procedure::_countProcedures() {
+void Procedure::_countProcedures() {
   int count = 0;
   const size_t procedureLength = _workingString.length();
   for (size_t j = 0; j < procedureLength; ++j) {
-    std::cout << "inside > " << _workingString[j] << std::endl;
     if ((_workingString[j] == '+' || _workingString[j] == '-' ||
          _workingString[j] == '*' || _workingString[j] == '/' ||
          _workingString[j] == '=' || _workingString[j] == '>' ||
@@ -186,5 +184,33 @@ int Procedure::_countProcedures() {
     }
   }
 
-  return count;
+  Term simpleCount(count, 0);
+  _polyCount.append(simpleCount);
 }
+
+void Procedure::_countLoops() {
+  for (auto &forPart : _forParts) {
+    std::list<Term> termHolder;
+    _holder = new Loop();
+    _holder->tokenize(forPart.content);
+    _holder->count();
+    _holder->getCount().printTerms();
+    termHolder = _holder->getCount().getTerms();
+
+    for (auto &terms : termHolder) {
+      _polyCount.append(terms);
+    }
+  }
+}
+
+void Procedure::count() {
+  _countLoops();
+  _countProcedures();
+}
+
+void Procedure::printCount() {
+  std::cout << "T(n) = ";
+  _polyCount.printTerms();
+}
+
+Poly Procedure::getCount() const { return _polyCount; }

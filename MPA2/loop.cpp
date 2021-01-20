@@ -1,6 +1,8 @@
 #include "loop.hpp"
+#include "procedure.hpp"
 
-Loop::Loop() { _innerLoop = nullptr; }
+Loop::Loop() {}
+Loop::~Loop() { delete _procedure; }
 void Loop::tokenize(std::string file) {
   // Gets the next character after the parenthesis
   unsigned openParen = file.find("(") + 1;
@@ -55,34 +57,9 @@ void Loop::_tokenizeParenContent(std::string &parenContent) {
 }
 
 void Loop::_tokenizeBracketContent(std::string &bracketContent) {
-  // Creating buffer variables
-
-  const size_t forLocation = bracketContent.find("for");
-  if (forLocation != std::string::npos) {
-    const size_t endLocation = bracketContent.find("}");
-    std::string forString =
-        bracketContent.substr(forLocation, endLocation - forLocation + 1);
-
-    bracketContent =
-        bracketContent.erase(forLocation, endLocation - forLocation + 1);
-    Loop *innerLoop = new Loop;
-    innerLoop->tokenize(forString);
-    innerLoop->count();
-    _innerLoop = innerLoop;
-  }
-
-  std::istringstream tempStream(bracketContent);
-  std::string token;
-  while (std::getline(tempStream, token, ';')) {
-    _procedures.push_back(token);
-  }
-}
-
-void Loop::printMembers() {
-  for (auto &i : _procedures) {
-    std::cout << i << std::endl;
-  }
-  std::cout << std::endl;
+  _procedure = new Procedure();
+  _procedure->tokenize(bracketContent);
+  _procedure->count();
 }
 
 void Loop::count() {
@@ -101,10 +78,13 @@ void Loop::count() {
     }
 
     if (!isInfinite) {
-      Term inLoop(
-          _countProcedures() + _condition.getCount() + _operator.getCount(), 0);
+      Term inLoop(_condition.getCount() + _operator.getCount(), 0);
 
       _polyCount.append(inLoop);
+      std::list<Term> termHolder = _procedure->getCount().getTerms();
+      for (auto &terms : termHolder) {
+        _polyCount.append(terms);
+      }
 
       // If root handle as root
       if (_condition.getIsRoot()) {
@@ -145,11 +125,6 @@ void Loop::count() {
     Term afterLoop(1 + _condition.getCount(), 0);
     _polyCount.append(afterLoop);
   }
-}
-
-void Loop::printCount() {
-  std::cout << "T(n) = ";
-  _polyCount.printTerms();
 }
 
 Poly Loop::getCount() const { return _polyCount; }

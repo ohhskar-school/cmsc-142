@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -g -Wall -std=c++11
+CFLAGS=-c -g -rdynamic -Wall -std=c++11
 LDFLAGS=
 LIBFLAGS=
 SOURCES=$(wildcard *.cpp)
