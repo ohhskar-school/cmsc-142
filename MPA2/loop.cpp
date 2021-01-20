@@ -147,25 +147,6 @@ void Loop::count() {
   }
 }
 
-int Loop::_countProcedures() {
-  int count = 0;
-  for (auto &procedure : _procedures) {
-    const int procedureLength = procedure.length();
-    for (int j = 0; j < procedureLength; j++) {
-      if ((procedure[j] == '+' || procedure[j] == '-' || procedure[j] == '*' ||
-           procedure[j] == '/' || procedure[j] == '=' || procedure[j] == '>' ||
-           procedure[j] == '<') &&
-          !(procedure[j - 1] == '+' || procedure[j - 1] == '-' ||
-            procedure[j - 1] == '*' || procedure[j - 1] == '/' ||
-            procedure[j - 1] == '=' || procedure[j - 1] == '<' ||
-            procedure[j - 1 == '>'])) {
-        count++;
-      }
-    }
-  }
-  return count;
-}
-
 void Loop::printCount() {
   std::cout << "T(n) = ";
   _polyCount.printTerms();

@@ -2,6 +2,7 @@
 #define MPA2_PROCEDURE
 
 #include "poly.hpp"
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -19,15 +20,17 @@ public:
   Poly getCount();
 
 private:
+  std::vector<Parts> _ifParts;
+  std::vector<Parts> _forParts;
   std::vector<Parts> _allParts;
-  std::list<std::string> _procedures;
   std::string _workingString;
 
-  Parts _tokenizeFor(size_t);
   Parts _tokenizeIf(size_t);
+  Parts _findParts(size_t, size_t, size_t);
+  void _cleanParts();
 
   Poly _polyCount;
-  int _countProcedures;
+  int _countProcedures();
 };
 
 #endif
