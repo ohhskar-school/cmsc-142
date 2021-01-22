@@ -62,8 +62,6 @@ void If::count() {
   if (_elseProcedure != nullptr) {
     Poly elsePoly = _elseProcedure->getCount();
     Poly ifPoly = _ifProcedure->getCount();
-    elsePoly.printTerms();
-    ifPoly.printTerms();
     if (elsePoly < ifPoly) {
       std::list<Term> termHolder = ifPoly.getTerms();
       for (auto &terms : termHolder) {

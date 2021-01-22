@@ -10,7 +10,7 @@
 #include "loop.hpp"
 #include "poly.hpp"
 
-#define IS_SUBMISSION false
+#define IS_SUBMISSION true
 
 std::string readFile(std::ifstream &input);
 std::string readFromCin();

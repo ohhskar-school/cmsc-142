@@ -1,10 +1,12 @@
-9
-int x;
-int y;
-if(i>1){
-a++;
-b++;
-}else{
-c++
+11
+int x = 1;
+for(int i=0; i<=n; i++){
+  a++
+  if (x == 1){
+    x*=1;
+  }
+  else{
+    x+=1;
+    x/=2;
+  }
 }
-d++
