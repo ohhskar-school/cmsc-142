@@ -24,6 +24,7 @@ public:
   bool applySummation(bool isUpperLimitNumber, bool isLogarithmic, bool isRoot,
                       int lowerLimit, int upperLimitInt,
                       std::string upperLimitString);
+  bool operator<(Term &);
 
 private:
   bool _infinite;

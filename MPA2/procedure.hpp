@@ -7,6 +7,7 @@
 #include <vector>
 
 class Loop;
+class If;
 
 struct Parts {
   bool isFor;
@@ -34,9 +35,11 @@ private:
   Parts _findParts(size_t, size_t, size_t);
   void _cleanParts();
 
-  Loop *_holder;
+  Loop *_loopHolder;
+  If *_ifHolder;
   Poly _polyCount;
   void _countLoops();
+  void _countIf();
   void _countProcedures();
 };
 

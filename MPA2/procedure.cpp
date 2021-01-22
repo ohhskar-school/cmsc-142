@@ -1,4 +1,5 @@
 #include "procedure.hpp"
+#include "if.hpp"
 #include "loop.hpp"
 
 #define IF_LENGTH 2
@@ -31,10 +32,6 @@ void Procedure::tokenize(std::string file) {
   }
 
   _cleanParts();
-
-  for (auto &part : _allParts) {
-    std::cout << part.content << std::endl;
-  }
 
   // Remove all placeholder text for counting remaining procedures
   _workingString.erase(
@@ -188,23 +185,43 @@ void Procedure::_countProcedures() {
   _polyCount.append(simpleCount);
 }
 
-void Procedure::_countLoops() {
-  for (auto &forPart : _forParts) {
+void Procedure::_countIf() {
+  for (auto &ifPart : _ifParts) {
     std::list<Term> termHolder;
-    _holder = new Loop();
-    _holder->tokenize(forPart.content);
-    _holder->count();
-    _holder->getCount().printTerms();
-    termHolder = _holder->getCount().getTerms();
+    _ifHolder = new If();
+    _ifHolder->tokenize(ifPart.content);
+    _ifHolder->count();
+    termHolder = _ifHolder->getCount().getTerms();
 
     for (auto &terms : termHolder) {
       _polyCount.append(terms);
     }
+
+    delete _ifHolder;
+    _ifHolder = nullptr;
+  }
+}
+
+void Procedure::_countLoops() {
+  for (auto &forPart : _forParts) {
+    std::list<Term> termHolder;
+    _loopHolder = new Loop();
+    _loopHolder->tokenize(forPart.content);
+    _loopHolder->count();
+    termHolder = _loopHolder->getCount().getTerms();
+
+    for (auto &terms : termHolder) {
+      _polyCount.append(terms);
+    }
+
+    delete _loopHolder;
+    _loopHolder = nullptr;
   }
 }
 
 void Procedure::count() {
   _countLoops();
+  _countIf();
   _countProcedures();
 }
 

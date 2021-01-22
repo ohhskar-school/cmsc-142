@@ -5,31 +5,28 @@
 #include <unordered_set>
 
 using namespace std;
-void includeMe(string, ofstream &, unordered_set<string> &);
+void includeMe(string, unordered_set<string> &);
 int main() {
 
-  // Creating output file
-  ofstream output("outputFile.out", ios::binary);
-
   // Creating input file
-  string initialName = "inputFile.cpp";
+  string initialName;
+
+  cin >> initialName;
 
   // Creating vector of already opened file
   unordered_set<string> filenames;
 
-  includeMe(initialName, output, filenames);
-
-  output.close();
+  includeMe(initialName, filenames);
 
   return 0;
 }
 
-void includeMe(string fileName, ofstream &output, unordered_set<string> &fileNames) {
+void includeMe(string fileName, unordered_set<string> &fileNames) {
 
   pair<unordered_set<string>::iterator, bool> result;
   result = fileNames.insert(fileName);
 
-  if(!result.second){
+  if (!result.second) {
     return;
   }
 
@@ -58,7 +55,7 @@ void includeMe(string fileName, ofstream &output, unordered_set<string> &fileNam
         while (std::getline(tempStream, token, '"')) {
           // Skips the first tokenization as it is the #include" string
           if (counter == 1) {
-            includeMe(token, output, fileNames);
+            includeMe(token, fileNames);
             break;
           } else {
             counter++;
@@ -69,7 +66,7 @@ void includeMe(string fileName, ofstream &output, unordered_set<string> &fileNam
       // If #include is not found in the statement, the contents of the file is
       // written to the output
       else {
-        output << lines << endl;
+        std::cout << lines << endl;
       }
     }
   }

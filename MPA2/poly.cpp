@@ -207,3 +207,5 @@ void Poly::printTerms() const {
     std::cout << std::endl;
   }
 }
+
+bool Poly::operator<(Poly &comp) { return terms.front() < comp.terms.front(); }

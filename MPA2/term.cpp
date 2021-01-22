@@ -111,3 +111,25 @@ bool Term::applySummation(bool isUpperLimitNumber, bool isLogarithmic,
 
   return false;
 }
+
+bool Term::operator<(Term &comp) {
+  if (_exponent == comp._exponent) {
+    double coefficient = _coefficient / _coefficientDenominator;
+    double compCoefficient = comp._coefficient / comp._coefficientDenominator;
+
+    return coefficient < compCoefficient;
+  } else {
+    double exponent = _exponent;
+    double compExponent = comp._exponent;
+
+    if (_exponent > 0 && _exponent < 1) {
+      exponent = -_exponent;
+    }
+
+    if (comp._exponent > 0 && comp._exponent < 1) {
+      compExponent = -comp._exponent;
+    }
+
+    return exponent < compExponent;
+  }
+}

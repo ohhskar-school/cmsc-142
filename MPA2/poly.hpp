@@ -24,6 +24,8 @@ public:
                       std::string upperLimitString);
   void printTerms() const;
   std::list<Term> getTerms() const;
+
+  bool operator<(Poly &);
 };
 
 #endif
